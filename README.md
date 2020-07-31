@@ -5,8 +5,8 @@ I created the Proof of Concept for a simulation framework. This framework is use
 The habitat is of size n*n where 0< n <= 1000,000 and humans can be in range 1 to 1 million.
 
 
-## OOP Language
-The language i selected for this task is JavaScript.
+## Choice of OOP Language
+The language I selected for this task is JavaScript.
 
 ## How To Run It
 * Reference the file inside the HTML document using a script tag.
@@ -29,15 +29,30 @@ The language i selected for this task is JavaScript.
  Map elements can also have objects and Strings as their key. 
  It was easy to search objects in the map as it has its builtin methods like map.has() and map.get(). 
  
- ##Aproximate Distribution of Time Spent
+ ## Approximate Distribution of Time Spent
  
-The maximum time I spent on movement function and its testing. Belowis the approximation of time i spent on different parts.
+The maximum time I spent on movement function and its testing. Below is the approximation of time i spent on different parts.
 
 * Classes: 2 hours
 * Methods: Half a day
 * Testing: 3 hours
 * Documentation/Commenting : 1/2 hour
 * Readme File: 1 Hour
+
+## Solution Design
+
+### Class: Habitat
+
+Consists of method generateHumans() and createOffices(). As the names show, generateHumans() and createOffices() are to create Human Objects (their Homes) and to create Offices for worker humans, respectively.
+
+### Class: Offices
+It is used to create Office Objects.
+
+### Class Human
+A human is an object of this class and for every human checkInfection() method is called to check if a human has been infected by spread of COVID19 or not.
+
+### Class Worker
+It extends Human class and is for worker elements. It consists of method of movement for worker Humans that help them to reach their destination. A worker human moves towards its office and when he reaches office, it starts moving towards home.
 
 
  
