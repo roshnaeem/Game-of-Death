@@ -14,6 +14,8 @@ The language I selected for this task is JavaScript.
 
 ## Assumptions
 
+* Immunity is assigned randomly between 0 and 1 inclusive. 
+* Office is assigned randomly to worker humans.
 * Only Humans with immunity less than 0.5 will get infected.
 * If an already infected person comes again in contact with the infected person, his counter of recovery time resets to zero.
 * While moving towards destination (Home or Office) if an object can not find it's way towards X direction, it would go one step in y direction.
