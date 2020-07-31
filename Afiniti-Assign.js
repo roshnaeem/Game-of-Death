@@ -283,9 +283,9 @@ class Habitat {
   }
 }
 
-let n = 4; // testing movement in habitat of 4 by 4
-let h = 10;
-let o = 5;
+let n = 1000000; // testing movement in habitat of 1000000 by 1000000
+let h = 1000000; //For 1 million humans
+let o = 10000; //For 10,000 Offices
 var habitat1 = new Habitat();
 var maps = habitat1.generateHumans(n, h, o);
 var offices = habitat1.createOffices(o, n);
@@ -326,7 +326,7 @@ function timer(maps, offices) {
   return maps;
 }
 
-for (let i =0; i<= 5; i++) {
+for (let i =0; i<= 10; i++) {
   console.log("tick" + i);
   let newmaps = timer(maps,offices);
   console.log(newmaps);
