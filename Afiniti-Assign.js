@@ -16,7 +16,7 @@ class Human {
    * @param {number} x the current x value of object.
    * @param {number} y the current y value of object.
    * @param {Object} maps Humans map.
-   * @param {t} number recovery time
+   * @param {t} number recovery time.
    */
   checkInfection(x,y,maps,t) {
     let n = 4;
@@ -24,16 +24,14 @@ class Human {
       this.infectedDuration++;
     }
 
-   if(this.immunity < 0.5) {
-      for(let i=x-1; i<=x+1; i++) {
+   if(this.immunity < 0.5) { //Assumption that people with immunity less than 0.5 will get infected.
+      for(let i=x-1; i<=x+1; i++) { //Contact can be in 3 by 3 surroundings.
         for(let j=y-1; j<=y+1; j++) {
-          if(i>=0 && i<= n && j>=0 && j<=n && i!=x && j!=y) {
+          if(i>=0 && i<= n && j>=0 && j<=n && i!=x && j!=y) { //exclude the object itself and check for boundaries.
             let keyCheck = i.toString() + " " + j.toString();
-
             if(maps.has(keyCheck)) {
               let neighbour = maps.get(keyCheck);
               if(neighbour.infected) {
-
                 this.infectedDuration = 0; //if an already infected person comes again in contact with infected person, his ocunter reset to zero.
                 this.infected = true;
               }
@@ -79,6 +77,7 @@ class Worker extends Human {
     officeLocX = officeObj.officeX;
     officeLocY = officeObj.officeY;
 
+    //Checks if the object is moving towards office or home.
     if(currentX == officeLocX && currentY == officeLocY) {
       this.workerDirection = true;
     }
@@ -89,6 +88,7 @@ class Worker extends Human {
     let reachedOffice = this.workerDirection;
     let keyTempObject;
 
+    //Assign the direction to move towards.
     if(reachedOffice) {
         destinationX = this.homeX;
         destinationY = this.homeY;
@@ -100,7 +100,7 @@ class Worker extends Human {
     let currentKey = currentX.toString() +  " " + currentY.toString();
     var newKey = currentKey;
 
-    //next two conditions are for cases when x is equal but y is not
+    //next two conditions are for cases when x is equal but y is not.
     if(destinationX == currentX && destinationY > currentY ) {
       keyTempObject = currentX.toString() +  " " +(currentY + 1).toString();
       if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
@@ -115,7 +115,7 @@ class Worker extends Human {
       }
     }
 
-    //next two conditions are for cases when y is equal but x is not
+    //next two conditions are for cases when y is equal but x is not.
     else if(destinationY == currentY && destinationX > currentX && (currentX + 1) <= n) {
       keyTempObject = (currentX + 1).toString() +  " " + currentY.toString();
       if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
@@ -130,7 +130,7 @@ class Worker extends Human {
       }
     }
 
-    //Assumption for next cases: if object can not find it's way towardsX direction, it would go in y direction
+    //Assumption for next cases: if object can not find it's way towardsX direction, it would go in y direction.
     else if(destinationX > currentX && destinationY > currentY && (currentX + 1) <= n) {
       keyTempObject = (currentX + 1).toString() +  " " + currentY.toString();
       if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
@@ -283,9 +283,9 @@ class Habitat {
   }
 }
 
-let n = 1000000; // testing movement in habitat of 1000000 by 1000000
-let h = 1000000; //For 1 million humans
-let o = 10000; //For 10,000 Offices
+let n = 1000000; // testing movement in habitat of 1000000 by 1000000.
+let h = 1000000; //For 1 million humans.
+let o = 10000; //For 10,000 Offices.
 var habitat1 = new Habitat();
 var maps = habitat1.generateHumans(n, h, o);
 var offices = habitat1.createOffices(o, n);
@@ -293,7 +293,7 @@ console.log(maps);
 console.log(offices);
 
 /**
- * Function called for one tick
+ * Function called for one tick.
  */
 
 function timer(maps, offices) {
