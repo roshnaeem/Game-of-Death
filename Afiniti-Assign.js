@@ -45,6 +45,7 @@ class Human {
 
     if (this.infectedDuration == t) {
       this.infected = false;
+      this.infectedDuration=0;
     }
   }
 }
@@ -69,7 +70,8 @@ class Worker extends Human {
    * @param {number} currentX the current x value of object.
    * @param {number} currentY the current y value of object.
    * @param {number} officesArray offices array.
-   * @param {n} number grid size
+   * @param {n} number grid size.
+   * @param {Object} tempMaps new map to store new keys.
    */
   moveTowardsDestination( maps, currentX, currentY, officesArray, n, tempMaps) {
     var destinationX, destinationY, officeLocX, officeLocY;
@@ -77,18 +79,16 @@ class Worker extends Human {
     officeLocX = officeObj.officeX;
     officeLocY = officeObj.officeY;
 
-     //Checks if the object is moving towards office or home
-    if(currentX == officeLocX && currentX==officeLocY) {
+    if(currentX == officeLocX && currentY == officeLocY) {
       this.workerDirection = true;
     }
-    else if (currentX== this.homeX && currentX == this.homeY) {
+    else if (currentX == this.homeX && currentY == this.homeY) {
       this.workerDirection = false;
     }
 
     let reachedOffice = this.workerDirection;
     let keyTempObject;
 
-    //Assign the direction to move towards
     if(reachedOffice) {
         destinationX = this.homeX;
         destinationY = this.homeY;
@@ -97,88 +97,98 @@ class Worker extends Human {
        destinationX = officeLocX;
        destinationY = officeLocY;
     }
+    let currentKey = currentX.toString() +  " " + currentY.toString();
+    var newKey = currentKey;
 
-    //console.log(destinationX, destinationY, officeObj.officeNumber);
-
-    if(destinationX == currentX && destinationY > currentY && (currentY + 1) <= n) {
+    //next two conditions are for cases when x is equal but y is not
+    if(destinationX == currentX && destinationY > currentY ) {
       keyTempObject = currentX.toString() +  " " +(currentY + 1).toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
     }
 
     else if(destinationX == currentX && destinationY < currentY && (currentY - 1) >= 0 ) {
       keyTempObject = currentX.toString() +  " " + (currentY - 1).toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
     }
 
+    //next two conditions are for cases when y is equal but x is not
     else if(destinationY == currentY && destinationX > currentX && (currentX + 1) <= n) {
       keyTempObject = (currentX + 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
     }
 
     else if(destinationY == currentY && destinationX < currentX && (currentX - 1) >= 0) {
       keyTempObject = (currentX - 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
     }
 
+    //Assumption for next cases: if object can not find it's way towardsX direction, it would go in y direction
     else if(destinationX > currentX && destinationY > currentY && (currentX + 1) <= n) {
       keyTempObject = (currentX + 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
+
+      //checks for the y direction
       else if( (currentY + 1) <= n) {
         keyTempObject = currentX.toString() +  " " + (currentY + 1).toString();
-        if(!maps.has(keyTempObject)) {
-          tempMaps.set(keyTempObject, this);
+        if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
         }
       }
     }
 
     else if(destinationX > currentX && destinationY < currentY && (currentX + 1) <= n) {
       keyTempObject = (currentX + 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
       else if( (currentY - 1) >= 0) {
         keyTempObject = currentX.toString() +  " " + (currentY - 1).toString();
-        if(!maps.has(keyTempObject)) {
-          tempMaps.set(keyTempObject, this);
+        if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
         }
       }
     }
 
     else if(destinationX < currentX && destinationY > currentY && (currentX - 1) >= 0) {
       keyTempObject = (currentX - 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
       else if( (currentY + 1) <= n) {
         keyTempObject = currentX.toString() +  " " + (currentY + 1).toString();
-        if(!maps.has(keyTempObject)) {
-          tempMaps.set(keyTempObject, this);
+        if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+          newKey = keyTempObject;
         }
       }
     }
 
     else if(destinationX < currentX && destinationY < currentY && (currentX - 1) >= 0) {
       keyTempObject = (currentX - 1).toString() +  " " + currentY.toString();
-      if(!maps.has(keyTempObject)) {
-        tempMaps.set(keyTempObject, this);
+      if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+        newKey = keyTempObject;
       }
       else if( (currentY - 1) >= 0) {
         keyTempObject = currentX.toString() +  " " + (currentY - 1).toString();
-        if(!maps.has(keyTempObject)) {
-          tempMaps.set(keyTempObject, this);
+        if(!maps.has(keyTempObject) && !tempMaps.has(keyTempObject)) {
+          newKey = keyTempObject;
         }
       }
     }
+
+    else {
+      newKey = currentKey;
+    }
+    return newKey;
   }
 }
 
@@ -189,9 +199,7 @@ class Office {
     this.officeX = officeX;
     this.officeY = officeY;
     this.officeNumber = officeNumber;
-
   }
-
 }
 
 /** Class representing a Habitat. */
@@ -201,9 +209,10 @@ class Habitat {
    * Creates human objects
    * @param {number} h of human objects to generate
    * @param {number} n grid szie n by n
-   * @return {Object} Map including all human objects created
+   * @param {number} o offices size
+   * @return {Object} Map Object including all human objects created
    */
-  generateHumans(n, h) {
+  generateHumans(n, h, o) {
     var objNumber= 1;
     var map = new Map();
     let key,x,y;
@@ -219,7 +228,7 @@ class Habitat {
 
         if(objName.workStatus == true) { //create a worker object
           objName = new Worker();
-          objName.officeNumber = Math.floor(Math.random()* 10000);;
+          objName.officeNumber = Math.floor(Math.random()* o);;
           objName.humanNumber = objNumber;
           objName.workStatus = true;
           objName.homeX = parseInt(key.split(' ')[0]);
@@ -248,21 +257,23 @@ class Habitat {
 
   /**
    * Creates offices array
+   * @param {number} n grid size
+   * @param {number} o number of offices
    * @return {Array} offices array
    */
-  createOffices() {
+  createOffices(o, n) {
 
     var Offices = [];
-    for (let row=0; row<10000; row++  ) {
+    for (let row=0; row<o; row++  ) {
       let office =  new Office();
-      let x = Math.floor(Math.random()* 1000000);
-      let y = Math.floor(Math.random()* 1000000);
+      let x = Math.floor(Math.random()* n);
+      let y = Math.floor(Math.random()* n);
 
       if(Offices.find(Element => Element.x == x && Element.y ==y)) {
         row--;
       }
       else {
-        office.officeX =x;
+        office.officeX = x;
         office.officeY = y;
         office.officeNumber = row;
         Offices.push(office);
@@ -272,18 +283,20 @@ class Habitat {
   }
 }
 
-let n = 1000000;
-let h = 1000000;
+let n = 4; // testing movement in habitat of 4 by 4
+let h = 10;
+let o = 5;
 var habitat1 = new Habitat();
-var maps = habitat1.generateHumans(n, h);
-var offices = habitat1.createOffices();
+var maps = habitat1.generateHumans(n, h, o);
+var offices = habitat1.createOffices(o, n);
 console.log(maps);
+console.log(offices);
 
 /**
  * Function called for one tick
  */
-function timer(maps, offices) {
 
+function timer(maps, offices) {
   var x,y,key,t;
   t=14;
   var tempMaps = new Map();
@@ -295,10 +308,26 @@ function timer(maps, offices) {
     map[1].checkInfection(x,y, maps, t);
 
     if(map[1].constructor.name == "Worker") {
-      map[1].moveTowardsDestination(maps, x, y, offices, n, tempMaps);
+      var newKey = map[1].moveTowardsDestination(maps, x, y, offices, n, tempMaps);
+      tempMaps.set(newKey, map[1]);
+    }
+    else {
+      tempMaps.set(map[0], map[1]);
     }
   }
-  console.log(tempMaps);
+
+  for(let map of maps) {
+    maps.delete(map[0]);
+  }
+
+  for (let tempMap of tempMaps) {
+    maps.set(tempMap[0], tempMap[1]);
+  }
+  return maps;
 }
 
-timer(maps, offices);
+for (let i =0; i<= 5; i++) {
+  console.log("tick" + i);
+  let newmaps = timer(maps,offices);
+  console.log(newmaps);
+}
