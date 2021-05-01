@@ -1,4 +1,4 @@
-# Afinti-Assignment-The-Game-of-Death
+# The-Game-of-Death
 
 This assignment is based on the spread of COVID 19 virus among humans depending on their movement and contact with different people. 
 I created the Proof of Concept for a simulation framework. This framework is used to model the spread of COVID 19 in a habitat. 
